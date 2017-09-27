@@ -1,6 +1,6 @@
 Package: leafscanr
 Title: An R leaf trait extraction package
-Version: 1.1
+Version: 1.0
 Author: Koen Hufkens <koen.hufkens@gmail.com>
 Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
 Description: Automatically extract (colour) leaf traits from leaf scans.
