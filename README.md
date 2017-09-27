@@ -4,7 +4,7 @@ The **leafscanr** R package provides functions to (batch) process leaf scans mad
 
 ## Installation
 
-clone the project to your home computer using the following command (with git installed)
+clone the project to your home computer using the following command (with git installed) or use the following set of command in your R console.
 
 ```R
 if(!require(devtools)){install.package(devtools)}
