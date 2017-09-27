@@ -25,7 +25,7 @@
 calculate_leaf_traits = function(path = "~/Desktop/testdir/",
                                  dpi = 300,
                                  background = "white",
-                                 reference = 0,
+                                 reference = NULL,
                                  out_path = NULL,
                                  plot = TRUE){
 
@@ -74,7 +74,7 @@ calculate_leaf_traits = function(path = "~/Desktop/testdir/",
     # read in image
     im = load.image(file)
 
-    if (reference != 0 || is.null(reference)){
+    if (!is.null(reference)){
       px = Xc(im) <= reference
       # blank out reference panels
       # could be done manually as well
@@ -166,7 +166,7 @@ calculate_leaf_traits = function(path = "~/Desktop/testdir/",
 
       text(pixel_stats$x,
            pixel_stats$y,
-           paste("mm^2: ", round(pixel_stats$square_cm,2)),
+           paste("cm^2: ", round(pixel_stats$square_cm,2)),
            adj = c(0,7),
            col = "red")
     }
