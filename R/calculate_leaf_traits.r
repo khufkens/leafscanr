@@ -6,7 +6,7 @@
 #' @param dpi: dots per inch resolution of the scan (default = 300)
 #' @param background: background matte used ("white" or "black")
 #' @param reference: is there a reference strip to the left which
-#' should be excluded, provide a number of pixels to do so (default = 0)
+#' should be excluded, provide a number of pixels to do so (default = NULL)
 #' @param out_path: output directory where to save the data if not returned
 #' to an R variable
 #' @param plot: plot the processed images for reference (default = FALSE)
@@ -15,14 +15,13 @@
 #' @keywords leaf traits, specific leaf area, leaf area, Gcc, Rcc
 #' @export
 #' @examples
-#'
 #' \dontrun{
 #'
 #' leaf_statistics = calculate_leaf_traits(path = "/mydata")
 #'
 #' }
 
-calculate_leaf_traits = function(path = "~/Desktop/testdir/",
+calculate_leaf_traits = function(path = "~",
                                  dpi = 300,
                                  background = "white",
                                  reference = NULL,
@@ -89,8 +88,7 @@ calculate_leaf_traits = function(path = "~/Desktop/testdir/",
 
     # convert to CIELAB colour space,
     # then create a data.frame with three colour channels as columns
-    d = sRGBtoLab(im) %>% as.data.frame(wide="c")%>%
-      dplyr::select(-x,-y)
+    d = sRGBtoLab(im) %>% as.data.frame(wide="c") %>% dplyr::select(-x,-y)
     L = channel(RGBtoHSL(im),3)
     # convert to raster format
     L = raster(t(as.matrix(L)))

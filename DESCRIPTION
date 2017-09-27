@@ -9,7 +9,9 @@ Depends:
 Imports:
     igraph (>= 1.1.2),
     stats (>= 3.3.1),
+    graphics (>= 3.3.1),
     raster (>= 2.5),
+    dplyr (>= 0.7.3),
     imager (>= 0.40.2)
 License: AGPLv3
 Encoding: UTF-8
