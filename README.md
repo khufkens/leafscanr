@@ -18,7 +18,7 @@ The algorithm uses a kmeans clustering and a priori knowledge of the scanner's b
 
 To run the algorithm on a batch of images put all images in a single directory with no other files and make sure to either manually exclude any reference strips or if set to the left remove it by deleting x number of pixels (see reference argument).
 
-The code below looks for images in the home directory for any images. These images are then processed with the assumption of a white scanner background, and a dpi (dots per inch) scanner setting of 300. No columns of the image are removed as the reference is set to NULL (0 has the same result) and the argument is ignored. When the out_path is specified resulting data is saved in a file called **leaf\_trait\_image\_analysis.rds**. If the plot argument is set to TRUE a plot of every processed image will be shown for quality control purposes (see figure below). A test image is provided in the **analysis** folder of this github repository.
+The code below looks for images in the home directory for any images. These images are then processed with the assumption of a white scanner background, and a dpi (dots per inch) scanner setting of 300. No columns of the image are removed as the reference is set to NULL and the argument is ignored. When the out_path is specified resulting data is saved in a file called **leaf\_trait\_image\_analysis.rds**. If the plot argument is set to TRUE a plot of every processed image will be shown for quality control purposes (see figure below). A test image is provided in the **analysis** folder of this github repository.
 
 ```R
 leaf_traits = calculate_leaf_traits(path = "~",
