@@ -13,7 +13,7 @@ Imports:
     raster (>= 2.5),
     dplyr (>= 0.7.3),
     imager (>= 0.40.2)
-License: AGPLv3
+License: AGPL-3
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true

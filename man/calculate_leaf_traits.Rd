@@ -9,20 +9,20 @@ calculate_leaf_traits(path = "~", dpi = 300, background = "white",
   reference = NULL, out_path = NULL, plot = TRUE)
 }
 \arguments{
-\item{path:}{path of image files to process (should only contain images),
+\item{path}{path of image files to process (should only contain images),
 default is your home directory}
 
-\item{dpi:}{dots per inch resolution of the scan (default = 300)}
+\item{dpi}{dots per inch resolution of the scan (default = 300)}
 
-\item{background:}{background matte used ("white" or "black")}
+\item{background}{background matte used ("white" or "black")}
 
-\item{reference:}{is there a reference strip to the left which
+\item{reference}{is there a reference strip to the left which
 should be excluded, provide a number of pixels to do so (default = NULL)}
 
-\item{out_path:}{output directory where to save the data if not returned
+\item{out_path}{output directory where to save the data if not returned
 to an R variable}
 
-\item{plot:}{plot the processed images for reference (default = FALSE)}
+\item{plot}{plot the processed images for reference (default = FALSE)}
 }
 \value{
 A nested list (data structure) listing the extracting traits together
@@ -33,7 +33,6 @@ Calculates leaf traits for a directory of leaf scans
 either made with a white or black background.
 }
 \examples{
-
 \dontrun{
 
 leaf_statistics = calculate_leaf_traits(path = "/mydata")
