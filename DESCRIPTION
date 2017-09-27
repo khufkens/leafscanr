@@ -1,11 +1,18 @@
 Package: lair
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: An R leaf trait extraction package
+Version: 1.1
+Author: Koen Hufkens <koen.hufkens@gmail.com>
+Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
+Description: Automatically extract (colour) leaf traits from leaf scans.
+Depends:
+    R (>= 3.3.1)
+Imports:
+    igraph (>= 1.1.2),
+    stats (>= 3.3.1),
+    raster (>= 2.5),
+    imager (>= 0.40.2)
+License: AGPLv3
 Encoding: UTF-8
 LazyData: true
+ByteCompile: true
+RoxygenNote: 6.0.1
