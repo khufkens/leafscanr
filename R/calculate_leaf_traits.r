@@ -130,7 +130,9 @@ calculate_leaf_traits = function(path = "~",
     # kick out anything smaller than 100 px
     c = raster::clump(seg, gaps = FALSE)
     raster::extent(c) = raster::extent(0,ncol(c),0,nrow(c))
-    for(i in which(raster::freq(c)[,2] < 100) ){
+
+    # only locations larger than 10000 pixels
+    for(i in which(raster::freq(c)[,2] < 10000) ){
      c[c == i] = NA
     }
 
