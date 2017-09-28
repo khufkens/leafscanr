@@ -32,7 +32,7 @@ calculate_leaf_traits = function(path = "~",
   getCover = function(img, roi, updatevalue){
 
     # read in the image and ROI mask
-    m = roi == updatevalue
+    m = (roi == updatevalue)
     m[m == 0] = NA
 
     # read image bands
@@ -45,18 +45,26 @@ calculate_leaf_traits = function(path = "~",
     r_s = raster::mask(r, m, maskevalue = NA)
     g_s = raster::mask(g, m, updatevalue = NA)
     b_s = raster::mask(b, m, updatevalue = NA)
+    brightness = (r_s + g_s + b_s)
+
+    # calculate images
+    gcc = g_s / brightness
+    rcc = r_s / brightness
 
     # average across the ROI
+    gcc_mean = raster::cellStats(gcc, stat = mean)
+    rcc_mean = raster::cellStats(rcc, stat = mean)
+
+    gcc_90 = raster::quantile(gcc, probs = 0.9)
+    rcc_90 = raster::quantile(rcc, probs = 0.9)
+
+    # individual channel info
     r_m = raster::cellStats(r_s, stat = mean)
     g_m = raster::cellStats(g_s, stat = mean)
     b_m = raster::cellStats(b_s, stat = mean)
 
-    # calculate the gcc (% green)
-    gcc =  g_m/(r_m + g_m + b_m)
-    rcc =  r_m/(r_m + g_m + b_m)
-
     # combine raw and calculated numbers
-    data = as.numeric(list(r_m,g_m,b_m,gcc,rcc))
+    data = as.numeric(list(r_m,g_m,b_m,gcc_mean,gcc_90,rcc_mean,rcc_90))
     return(data)
   }
 
@@ -139,7 +147,9 @@ calculate_leaf_traits = function(path = "~",
     # discard noise
     pixel_counts = as.data.frame(raster::freq(c, useNA = 'no'))
     results = lapply(pixel_counts$value,function(updatevalue){
-                getCover(file, c, updatevalue)
+                getCover(img = file,
+                         roi = c,
+                         updatevalue = updatevalue)
               })
 
     # bind things
@@ -147,7 +157,10 @@ calculate_leaf_traits = function(path = "~",
                         centroids,
                         pixel_counts$count,
                         do.call("rbind", results))
-    colnames(pixel_stats) = c("filename","x","y","count","r","g","b","gcc","rcc")
+    colnames(pixel_stats) = c("filename","x","y",
+                              "count","r","g","b",
+                              "gcc_mean","gcc_90",
+                              "rcc_mean","rcc_90")
 
     # convert counts to mm^2
     pixel_stats$square_cm = pixel_stats$count / (dpi / 2.54)^2
@@ -162,7 +175,7 @@ calculate_leaf_traits = function(path = "~",
 
       text(pixel_stats$x,
            pixel_stats$y,
-           paste("Gcc: ", round(pixel_stats$gcc,3)),
+           paste("Gcc: ", round(pixel_stats$gcc_90,3)),
            adj = c(0,5),
            col = "red")
 
