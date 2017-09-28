@@ -169,6 +169,9 @@ calculate_leaf_traits = function(path = "~",
 
     # plot results for feedback
     if (plot){
+      if(!is.null(out_path)){
+        jpeg(sprintf("%s/%s",out_path,basename(file)),300,900)
+      }
       raster::plotRGB(raster::brick(file))
       text(pixel_stats$x,
            pixel_stats$y,
@@ -186,6 +189,9 @@ calculate_leaf_traits = function(path = "~",
            paste("cm^2: ", round(pixel_stats$square_cm,2)),
            adj = c(0,7),
            col = "red")
+      if(!is.null(out_path)){
+        dev.off()
+      }
     }
     return(pixel_stats)
   })
