@@ -7,6 +7,8 @@
 #' @param background background matte used ("white" or "black")
 #' @param reference is there a reference strip to the left which
 #' should be excluded, provide a number of pixels to do so (default = NULL)
+#' @param min_size minimum size of a patch (in pixels) to be considered valid
+#' take into consideration that this is resolution dependent (default = 10000)
 #' @param out_path output directory where to save the data if not returned
 #' to an R variable
 #' @param plot plot the processed images for reference (default = FALSE)
@@ -24,6 +26,7 @@
 calculate_leaf_traits = function(path = "~",
                                  dpi = 300,
                                  background = "white",
+                                 min_size = 10000,
                                  reference = NULL,
                                  out_path = NULL,
                                  plot = TRUE){
@@ -131,8 +134,8 @@ calculate_leaf_traits = function(path = "~",
     c = raster::clump(seg, gaps = FALSE)
     raster::extent(c) = raster::extent(0,ncol(c),0,nrow(c))
 
-    # only locations larger than 10000 pixels
-    for(i in which(raster::freq(c)[,2] < 10000) ){
+    # only locations larger than min_size pixels
+    for(i in which(raster::freq(c)[,2] < min_size) ){
      c[c == i] = NA
     }
 
@@ -170,7 +173,7 @@ calculate_leaf_traits = function(path = "~",
     # plot results for feedback
     if (plot){
       if(!is.null(out_path)){
-        jpeg(sprintf("%s/%s",out_path,basename(file)),300,900)
+        jpeg(sprintf("%s/%s",out_path,basename(file)),500,700)
       }
       raster::plotRGB(raster::brick(file))
       text(pixel_stats$x,
