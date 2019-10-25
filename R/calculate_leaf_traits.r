@@ -5,8 +5,8 @@
 #' default is your home directory
 #' @param dpi dots per inch resolution of the scan (default = 300)
 #' @param background background matte used ("white" or "black")
-#' @param reference is there a reference strip to the left which
-#' should be excluded, provide a number of pixels to do so (default = NULL)
+#' @param reference is there a panel to the left which
+#' should be excluded, provide a number of pixels to do so (default = c(100,100))
 #' @param min_size minimum size of a patch (in pixels) to be considered valid
 #' take into consideration that this is resolution dependent (default = 10000)
 #' @param out_path output directory where to save the data if not returned
@@ -27,7 +27,7 @@ calculate_leaf_traits = function(path = "~",
                                  dpi = 300,
                                  background = "white",
                                  min_size = 10000,
-                                 reference = NULL,
+                                 reference = c(1000,1000),
                                  out_path = NULL,
                                  plot = TRUE){
 
@@ -88,15 +88,14 @@ calculate_leaf_traits = function(path = "~",
     im = imager::load.image(file)
 
     if (!is.null(reference)){
-      px = imager::Xc(im) <= reference
       # blank out reference panels
       # could be done manually as well
       if (background == "white"){
-        bg = imager::imfill(dim=dim(im),val=c(1,1,1))
-        msk = imager::as.cimg(px)
-        im = bg*msk+(1-msk)*im
+        im[0:reference[1],
+           (imager::height(im)-reference[2]): imager::height(im),,] <- 1
       }else{
-        im[px] = 0
+        im[0:reference[1],
+           (imager::height(im)-reference[2]): imager::height(im),,] <- 0
       }
     }
 
@@ -121,7 +120,10 @@ calculate_leaf_traits = function(path = "~",
     raster::extent(seg) = raster::extent(0,ncol(seg),0,nrow(seg))
 
     # calculate zonal statistics
-    zstats = as.data.frame(raster::zonal(L, seg, fun = "mean", na.rm = TRUE))
+    zstats = as.data.frame(raster::zonal(L,
+                                         seg,
+                                         fun = "mean",
+                                         na.rm = TRUE))
 
     if (background == "white"){
       seg[seg == which(zstats$mean == max(zstats$mean, na.rm = TRUE))] = NA

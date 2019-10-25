@@ -6,7 +6,8 @@
 either made with a white or black background.}
 \usage{
 calculate_leaf_traits(path = "~", dpi = 300, background = "white",
-  reference = NULL, out_path = NULL, plot = TRUE)
+  min_size = 10000, reference = c(1000, 1000), out_path = NULL,
+  plot = TRUE)
 }
 \arguments{
 \item{path}{path of image files to process (should only contain images),
@@ -16,8 +17,11 @@ default is your home directory}
 
 \item{background}{background matte used ("white" or "black")}
 
-\item{reference}{is there a reference strip to the left which
-should be excluded, provide a number of pixels to do so (default = NULL)}
+\item{min_size}{minimum size of a patch (in pixels) to be considered valid
+take into consideration that this is resolution dependent (default = 10000)}
+
+\item{reference}{is there a panel to the left which
+should be excluded, provide a number of pixels to do so (default = c(100,100))}
 
 \item{out_path}{output directory where to save the data if not returned
 to an R variable}
